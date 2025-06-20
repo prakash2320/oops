@@ -1,0 +1,168 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            background-color: #eaeaea;
+            font-family: Arial, sans-serif;
+        }
+
+        .box {
+            max-width: 500px;
+            margin: 40px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .title {
+            text-align: center;
+            font-size: 24px;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .output-box {
+            display: none;
+            background-color: #f1ffe4;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 8px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="box">
+        <div class="title">Student & Parent Form</div>
+
+        <form id="form-data">
+            <div class="input-group">
+                <label>Student Name</label>
+                <input type="text">
+            </div>
+            <div class="input-group">
+                <label>Student Email</label>
+                <input type="email">
+            </div>
+            <div class="input-group">
+                <label>Student Mobile</label>
+                <input type="number">
+            </div>
+            <div class="input-group">
+                <label>Student Grid</label>
+                <input type="number">
+            </div>
+
+            <div class="input-group">
+                <label>Parent Name</label>
+                <input type="text">
+            </div>
+            <div class="input-group">
+                <label>Parent Email</label>
+                <input type="email">
+            </div>
+            <div class="input-group">
+                <label>Parent Mobile</label>
+                <input type="number">
+            </div>
+            <div class="input-group">
+                <label>Relation</label>
+                <input type="text">
+            </div>
+
+            <button type="submit" class="btn-submit">Submit</button>
+        </form>
+
+        <div class="output-box" id="output">
+            <p id="para"></p>
+        </div>
+    </div>
+
+    <script>
+        const formData = document.querySelector("#form-data");
+        const para = document.querySelector("#para");
+
+        formData.addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            class Common {
+                constructor(name, email, mobile) {
+                    this.name = name;
+                    this.email = email;
+                    this.mobile = mobile;
+                }
+
+                show() {
+                    return `Name: ${this.name}, Email: ${this.email}, Mobile: ${this.mobile}`;
+                }
+            }
+
+            class Student extends Common {
+                constructor(name, email, mobile, grid) {
+                    super(name, email, mobile);
+                    this.grid = grid;
+                }
+
+                show() {
+                    return `${super.show()}, Grid: ${this.grid}`;
+                }
+            }
+
+            class Parent extends Common {
+                constructor(name, email, mobile, relation) {
+                    super(name, email, mobile);
+                    this.relation = relation;
+                }
+
+                show() {
+                    return `${super.show()}, Relation: ${this.relation}`;
+                }
+            }
+
+            const inputs = document.querySelectorAll("#form-data input");
+
+            const student = new Student(inputs[0].value, inputs[1].value, inputs[2].value, inputs[3].value);
+            const parent = new Parent(inputs[4].value, inputs[5].value, inputs[6].value, inputs[7].value);
+
+            document.querySelector("#output").style.display = "block";
+            para.innerHTML = `<strong>Student:</strong> ${student.show()}<br><strong>Parent:</strong> ${parent.show()}`;
+        });
+    </script>
+</body>
+</html>
